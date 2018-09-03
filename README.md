@@ -1,6 +1,8 @@
 # Redux Browser-Extension Sync
 > Sync Redux state between browser extension components
 
+[![Build Status](https://travis-ci.org/perry-mitchell/redux-browser-extension-sync.svg?branch=master)](https://travis-ci.org/perry-mitchell/redux-browser-extension-sync)
+
 ## Installation
 Install by simply executing the following:
 
