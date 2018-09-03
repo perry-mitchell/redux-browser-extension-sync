@@ -1,0 +1,26 @@
+{
+  "name": "redux-browser-extension-sync",
+  "version": "0.1.0",
+  "description": "Sync Redux state between browser extension components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perry-mitchell/redux-browser-extension-sync.git"
+  },
+  "keywords": [
+    "redux",
+    "sync",
+    "state",
+    "browser",
+    "extension"
+  ],
+  "author": "Perry Mitchell <perry@perrymitchell.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/perry-mitchell/redux-browser-extension-sync/issues"
+  },
+  "homepage": "https://github.com/perry-mitchell/redux-browser-extension-sync#readme"
+}
