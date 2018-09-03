@@ -4,7 +4,16 @@
   "description": "Sync Redux state between browser extension components",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write '*.js'",
+    "precommit": "lint-staged",
+    "test": "npm run test:format",
+    "test:format": "prettier-check '*.js'"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -22,5 +31,11 @@
   "bugs": {
     "url": "https://github.com/perry-mitchell/redux-browser-extension-sync/issues"
   },
-  "homepage": "https://github.com/perry-mitchell/redux-browser-extension-sync#readme"
+  "homepage": "https://github.com/perry-mitchell/redux-browser-extension-sync#readme",
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.2",
+    "prettier": "^1.14.2",
+    "prettier-check": "^2.0.0"
+  }
 }
