@@ -36,7 +36,7 @@ function sendStateUpdate(action) {
         });
 }
 
-function syncToStore(store) {
+function syncStore(store) {
     const { dispatch, getState } = store;
     const handler = (request, sender, sendResponse) => {
         if (!request) {
@@ -52,9 +52,7 @@ function syncToStore(store) {
         }
     };
     chrome.runtime.onMessage.addListener(handler);
-    return {
-        remove: () => chrome.runtime.onMessage.removeListener(handler);
-    };
+    return store;
 }
 
 module.exports = {

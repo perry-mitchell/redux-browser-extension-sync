@@ -58,9 +58,7 @@ function syncStore(store) {
             payload: resp.state
         });
     });
-    return {
-        remove: () => chrome.runtime.onMessage.removeListener(handler);
-    };
+    return store;
 }
 
 module.exports = {
