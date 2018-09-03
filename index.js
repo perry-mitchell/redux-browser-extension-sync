@@ -38,7 +38,7 @@ function sendStateUpdate(action) {
     });
 }
 
-function syncToStore(store) {
+function syncStore(store) {
     const { dispatch } = store;
     const handler = request => {
         if (!request) {
@@ -66,5 +66,5 @@ function syncToStore(store) {
 module.exports = {
     createSyncReducer,
     createSyncMiddleware,
-    syncToStore
+    syncStore
 };

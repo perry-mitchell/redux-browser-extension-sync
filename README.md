@@ -22,7 +22,62 @@ It is not designed to work with content scripts or other areas that do not have 
  * Opera
 
 ## Usage
-_TBC_
+To sync state between your stores in different parts of your application/extension, you should first initialise the **background** store with the required middleware:
+
+```javascript
+import { applyMiddleware, createStore } from "redux";
+import { createSyncMiddleware, syncStore } from "redux-browser-extension-sync/background";
+import rootReducer from "../reducers/index.js";
+
+const syncMiddleware = createSyncMiddleware();
+
+const store = syncStore(createStore(
+    rootReducer,
+    applyMiddleware(syncMiddleware)
+));
+```
+
+The synchronisation is performed by connecting to the store in 2 phases:
+
+ * `createSyncMiddleware` - Middleware that watches for dispatched actions on the store, and transmits these to other tabs
+ * `syncStore` - Store enhancement to dispatch received actions on the store
+
+When the background script initialises, the store and its sync enhancements will be ready and waiting for tabs or popups to connect.
+
+To initialise the stores of popups or tabs, the same process followed, with 1 addition: a sync reducer. This reducer wraps the extension's root reducer, allowing it to set state:
+
+```javascript
+import { combineReducers } from "redux";
+import { createSyncReducer } from "redux-browser-extension-sync";
+import notes from "./notes.js";
+import searchResults from "./searchResults.js";
+
+const appReducer = combineReducers({
+    notes,
+    searchResults
+});
+
+export default createSyncReducer(appReducer);
+```
+
+Once this reducer is set-up, similar store connections as with the background store can be made:
+
+```javascript
+import { applyMiddleware, createStore } from "redux";
+import { createSyncMiddleware, syncStore } from "redux-browser-extension-sync";
+import rootReducer from "../reducers/index.js";
+
+const syncMiddleware = createSyncMiddleware();
+
+const store = syncStore(createStore(
+    rootReducer,
+    applyMiddleware(syncMiddleware)
+));
+```
+
+That's all that's required to connect the Redux stores and their state. This library uses Chrome messaging APIs to send the state between extension components (API methods are compatible across supported browsers).
+
+**Disclaimer**: It is not recommended to store sensitive information in any store synchronised using this library.
 
 ### Extension requirements
 The extension must have a background script for this library to work. The background script, with its Redux store, is the central message bank for all state synchronisations.

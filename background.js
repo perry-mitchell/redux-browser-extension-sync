@@ -59,5 +59,5 @@ function syncToStore(store) {
 
 module.exports = {
     createSyncMiddleware,
-    syncToStore
+    syncStore
 };
