@@ -91,3 +91,6 @@ Certain manifest permissions may need to be set before this library can be used.
 
 ### State requirements
 You should be using a clean, **primitive** state structure that supports JSON-style serialisation. The state will regularly be sent between browser tabs and the background script in serialised form.
+
+## Motivation
+The [browser extension for Buttercup](https://github.com/buttercup/buttercup-browser-extension) is a complex application used for password and secrets management - it makes use of multiple Redux stores across its components, which prompted me to write a sync library to assist with this process. I intend to use it elsewhere as I like the ability to bring my full state tree with me across each extension I build.
