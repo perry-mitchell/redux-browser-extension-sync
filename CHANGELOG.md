@@ -1,5 +1,10 @@
 # Redux Browser-Extension Sync changelog
 
+## v0.1.1
+_2018-09-04_
+
+ * **Bugfix**: Popup would not receive state sync messages
+
 ## v0.1.0
 _2018-09-03_
 
