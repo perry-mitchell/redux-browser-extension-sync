@@ -21,15 +21,18 @@ function createSyncMiddleware() {
 }
 
 function sendStateUpdate(action) {
-    return Promise.all([
-        new Promise(resolve => chrome.tabs.query({ windowType: "normal" }, tabs => resolve(tabs))),
-        new Promise(resolve => chrome.tabs.query({ windowType: "popup" }, tabs => resolve(tabs)))
-    ]).then(([normalTabs, popupTabs]) => {
-        [...normalTabs, ...popupTabs].forEach(tab => {
+    const fetchTabs = new Promise(resolve => chrome.tabs.query({}, tabs => resolve(tabs)));
+    return fetchTabs.then(tabs => {
+        tabs.forEach(tab => {
             chrome.tabs.sendMessage(tab.id, {
                 type: REQUEST_TYPE_SYNC_TO_TAB,
                 action
             });
+        });
+        // handle popup
+        chrome.runtime.sendMessage({
+            type: REQUEST_TYPE_SYNC_TO_TAB,
+            action
         });
     });
 }
