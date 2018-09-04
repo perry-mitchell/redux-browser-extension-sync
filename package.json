@@ -1,6 +1,6 @@
 {
   "name": "redux-browser-extension-sync",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sync Redux state between browser extension components",
   "main": "index.js",
   "scripts": {
