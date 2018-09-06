@@ -22,6 +22,9 @@ It is not designed to work with content scripts or other areas that do not have 
  * Chrome
  * Firefox
  * Opera
+ * Edge ¹
+ 
+ ¹ Edge support is dependent on API bridges being in place - follow the [Chrome to Edge porting instructions](https://docs.microsoft.com/en-us/microsoft-edge/extensions/guides/porting-chrome-extensions#api-bridges).
 
 ## Usage
 To sync state between your stores in different parts of your application/extension, you should first initialise the **background** store with the required middleware:
