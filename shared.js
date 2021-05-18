@@ -6,7 +6,8 @@ const REQUEST_TYPE_SYNC_FULL = "@@reduxBrowserSync/syncFullToTab";
 const REQUEST_TYPE_SYNC_TO_BG = "@@reduxBrowserSync/syncToBg";
 const REQUEST_TYPE_SYNC_TO_TAB = "@@reduxBrowserSync/syncToTab";
 
-let __actionCounter = 0;
+let __actionCounter = 0,
+    __lastActionedError = null;
 
 function canSendAction(action) {
     if (action && ACTION_BLACKLIST.test(action.type)) {
@@ -14,6 +15,16 @@ function canSendAction(action) {
         return false;
     }
     return typeof action[ACTION_SYNC_PROP] !== "number";
+}
+
+function handleSendMessageResponse(response) {
+    if (typeof response === "undefined" && chrome.runtime.lastError) {
+        const lastError = chrome.runtime.lastError;
+        if (lastError.message !== __lastActionedError) {
+            __lastActionedError = lastError.message;
+            throw new Error(`Redux state sync failed: ${__lastActionedError}`);
+        }
+    }
 }
 
 function markActionAsSynchronised(action) {
@@ -29,5 +40,6 @@ module.exports = {
     REQUEST_TYPE_SYNC_TO_BG,
     REQUEST_TYPE_SYNC_TO_TAB,
     canSendAction,
+    handleSendMessageResponse,
     markActionAsSynchronised
 };

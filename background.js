@@ -4,6 +4,7 @@ const {
     REQUEST_TYPE_SYNC_TO_BG,
     REQUEST_TYPE_SYNC_TO_TAB,
     canSendAction,
+    handleSendMessageResponse,
     markActionAsSynchronised
 } = require("./shared.js");
 
@@ -24,16 +25,25 @@ function sendStateUpdate(action) {
     const fetchTabs = new Promise(resolve => chrome.tabs.query({}, tabs => resolve(tabs)));
     return fetchTabs.then(tabs => {
         tabs.forEach(tab => {
-            chrome.tabs.sendMessage(tab.id, {
-                type: REQUEST_TYPE_SYNC_TO_TAB,
-                action
-            });
+            chrome.tabs.sendMessage(
+                tab.id,
+                {
+                    type: REQUEST_TYPE_SYNC_TO_TAB,
+                    action
+                },
+                undefined,
+                handleSendMessageResponse
+            );
         });
         // handle popup
-        chrome.runtime.sendMessage({
-            type: REQUEST_TYPE_SYNC_TO_TAB,
-            action
-        });
+        chrome.runtime.sendMessage(
+            {
+                type: REQUEST_TYPE_SYNC_TO_TAB,
+                action
+            },
+            undefined,
+            handleSendMessageResponse
+        );
     });
 }
 

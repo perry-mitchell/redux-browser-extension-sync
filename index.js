@@ -5,6 +5,7 @@ const {
     REQUEST_TYPE_SYNC_TO_BG,
     REQUEST_TYPE_SYNC_TO_TAB,
     canSendAction,
+    handleSendMessageResponse,
     markActionAsSynchronised
 } = require("./shared.js");
 
@@ -32,10 +33,14 @@ function createSyncMiddleware() {
 }
 
 function sendStateUpdate(action) {
-    chrome.runtime.sendMessage({
-        type: REQUEST_TYPE_SYNC_TO_BG,
-        action
-    });
+    chrome.runtime.sendMessage(
+        {
+            type: REQUEST_TYPE_SYNC_TO_BG,
+            action
+        },
+        undefined,
+        handleSendMessageResponse
+    );
 }
 
 function syncStore(store) {
@@ -50,6 +55,7 @@ function syncStore(store) {
     };
     chrome.runtime.onMessage.addListener(handler);
     chrome.runtime.sendMessage({ type: REQUEST_TYPE_SYNC_EMITFULL }, resp => {
+        handleSendMessageResponse(resp);
         if (resp.type !== REQUEST_TYPE_SYNC_FULL) {
             throw new Error(`Invalid response type: Expected full-sync: ${resp.type}`);
         }
